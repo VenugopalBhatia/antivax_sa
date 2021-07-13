@@ -12,8 +12,8 @@ class Preprocessor:
 
     def __init__(self):
         self.lemmatizer = WordNetLemmatizer()
-        self.stopwords = stopwords.words('english')
-        self.stopwords.extend(list(string.punctuation))
+        self.stopwords = set(stopwords.words('english'))
+        self.stopwords.update(list(string.punctuation))
         self.pos_tag = nltk.pos_tag
 
 ######### Methods to apply to dataframes ###############################################
@@ -47,7 +47,7 @@ class Preprocessor:
         posTags = self.pos_tag(wordTokens)
         lemmatized_words = []
         for w in posTags:
-            lemmatized_words.append(self.lemmatizer.lemmatize(w[0],pos=self.get_simple_tag(w[1])))
+            lemmatized_words.append(self.lemmatizer.lemmatize(w[0],pos=self.get_simple_tag(w[1])).lower())
         
         return lemmatized_words
     
