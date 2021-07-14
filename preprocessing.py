@@ -33,7 +33,7 @@ class Preprocessor:
     def lemmatize_tweets(self,df,wordTokens,wordTokensLemmatized):
         df[wordTokensLemmatized] = df[wordTokens].apply(self.lemmatize_message)
 
-######### Methods to apply to individual messages ######################################
+######### Methods to apply at the row level ######################################
 
     def gen_word_tokens(self,message):
         words = word_tokenize(message)
