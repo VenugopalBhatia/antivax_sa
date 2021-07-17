@@ -23,9 +23,8 @@ class Preprocessor:
         df['mentions'] = df[msgColumn].apply(lambda x: re.findall("@([a-zA-Z0-9_]{1,50})",x)) #Extract mentions
         df['hashtags'] = df[msgColumn].apply(lambda x: re.findall("#([a-zA-Z0-9_]{1,50})",x)) #Extract hashtags
         df['links'] = df[msgColumn].apply(lambda x: re.findall("https[a-zA-Z0-9_//:.]{1,100}",x)) #Extract links
-        df[cleanColumn] = df[msgColumn].replace("^RT.*:|\s{2,}|…|&amp;|@([a-zA-Z0-9_]{1,50})|https[a-zA-Z0-9_//:.]{1,100}"," ",regex=True).str.strip() #Dont remove hashtags as they may provide context
-
-
+        df[cleanColumn] = df[msgColumn].replace("^RT.*:|\s{2,}|(…)|(&amp;)|(’)|(”)|(“)|[^A-Za-z0-9_]{1}|@([a-zA-Z0-9_]{1,50})|https[a-zA-Z0-9_//:.]{1,100}"," ",regex=True).str.strip() #Dont remove hashtags as they may provide context
+    
     def clean_tweets(self,df,msgColumn,wordTokens):
         df[wordTokens] = df[msgColumn].apply(self.gen_word_tokens) # not converting to lowercase since it may lead to loss of information
         
