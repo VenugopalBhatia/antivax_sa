@@ -1,4 +1,5 @@
 from hyperopt import fmin, tpe, hp, STATUS_OK, Trials
+import utils
 from sklearn.model_selection import cross_val_score
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
@@ -6,7 +7,9 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.naive_bayes import BernoulliNB
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
-import utils
+import importlib
+
+importlib.reload(utils)
 # from .. import utils
 
 ####### Methods for minimization and logging each time step taken by hyperopt ####
@@ -41,9 +44,11 @@ class optimize_model:
             
             
         else:
-            X,x_feature_names = utils.get_features(df = self.df,n = numFeatures,message_tokenized = self.message_tokenized)
+            X,x_feature_names,count_vec = utils.get_features(df = self.df,n = numFeatures,message_tokenized = self.message_tokenized)
         Y = self.df[self.y].values
-        
+        self.count_vec = count_vec
+        self.feature_names = x_feature_names
+
         if(self.model == 'svm'):
             clf = SVC(**params)
         elif(self.model == 'naive_bayes'):
@@ -58,7 +63,7 @@ class optimize_model:
             return 0
         
         if(get_model):
-            return cross_val_score(clf,X,Y),clf
+            return cross_val_score(clf,X,Y),clf.fit(X,Y)
         
         return cross_val_score(clf,X,Y).mean()  #Default is StratifiedKFold for sklearn based classifiers
        

@@ -37,7 +37,7 @@ def get_features(df,n,message_tokenized,features = 'features',lemmatized_message
         data_matrix = count_vec.fit_transform(df[lemmatized_message].values)
         data_matrix = data_matrix.todense()
         feature_names = count_vec.get_feature_names()
-        return data_matrix,feature_names
+        return data_matrix,feature_names,count_vec
 
 def get_word_dict(feature_set,x):
     words_set = set(x)
