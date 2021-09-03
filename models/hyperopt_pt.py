@@ -97,7 +97,8 @@ class optimize_model:
                 'numFeatures': hp.choice('numFeatures',range(100,2500)),
                 'C': hp.uniform('C', 0, 10.0),
                 'kernel': hp.choice('kernel', ['linear', 'rbf']),
-                'gamma': hp.uniform('gamma', 0, 20.0)
+                'gamma': hp.uniform('gamma', 0, 20.0),
+                'decision_function_shape':'ovr'
             },
             'knn':{
                 'numFeatures': hp.choice('numFeatures',range(100,2500)),
